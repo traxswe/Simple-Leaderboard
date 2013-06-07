@@ -1,0 +1,174 @@
+﻿<Window x:Class="Trax.Leaderboard.W1024x768"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Trax.Leaderboard" Width="1024" Height="768"
+        ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" MouseLeftButtonDown="DWindow_MouseLeftButtonDown" MouseDoubleClick="MouseDouble_Click" WindowStyle="None">
+    <Window.Resources>
+        <local:LeftMarginConverter x:Key="LeftMarginConverter"></local:LeftMarginConverter>
+        <local:BoldConverter x:Key="BoldConverter"></local:BoldConverter>
+        <local:ItalicConverter x:Key="ItalicConverter"></local:ItalicConverter>
+        <local:GridWidthConverter x:Key="GridWidthConverter"></local:GridWidthConverter>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+        <Label DockPanel.Dock="Bottom" Content="© Copyright Trax 2013 (http://www.furaffinity.net/user/traxswe)"></Label>
+        <StackPanel DockPanel.Dock="Top">
+            <Label x:Name="WindowTitle" Content="{Binding Path=Title.Text}" FontSize="{Binding Path=Title.FontSize}" FontStyle="{Binding Path=Title.Italic, Converter={StaticResource ItalicConverter}}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="0,20,0,0" FontWeight="{Binding Path=Title.Bold, Converter={StaticResource BoldConverter}}" Foreground="{Binding Path=Title.Color}" FontFamily="{Binding Path=Title.FontName}">
+            </Label>
+
+            <Grid HorizontalAlignment="Left" Margin="{Binding Path=JudgeOffset, Converter={StaticResource LeftMarginConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding Path=JudgeBoxWidth}"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="{Binding Path=JudgeBoxWidth}"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="{Binding Path=JudgeBoxWidth}"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="{Binding Path=BoxJudgeColor}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=BoxJudgeColor}">
+                    <Label Width="{Binding Path=JudgeBoxWidth}" Height="{Binding Path=JudgeBoxHeight}" Content="{Binding Path=Judge1}" FontStyle="{Binding Path=BoxJudgeFont.Italic, Converter={StaticResource ItalicConverter}}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="{Binding Path=BoxJudgeFont.FontName}"
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="{Binding Path=BoxJudgeFont.FontSize}" FontWeight="{Binding Path=BoxJudgeFont.Bold, Converter={StaticResource BoldConverter}}" 
+                       Foreground="{Binding Path=BoxJudgeFont.Color}"></Label>
+                </Border>
+
+                <Border Grid.Column="2" BorderBrush="{Binding Path=BoxJudgeColor}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=BoxJudgeColor}">
+                    <Label Width="{Binding Path=JudgeBoxWidth}" Height="{Binding Path=JudgeBoxHeight}" Content="{Binding Path=Judge2}" FontStyle="{Binding Path=BoxJudgeFont.Italic, Converter={StaticResource ItalicConverter}}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="{Binding Path=BoxJudgeFont.FontName}"
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="{Binding Path=BoxJudgeFont.FontSize}" FontWeight="{Binding Path=BoxJudgeFont.Bold, Converter={StaticResource BoldConverter}}" 
+                       Foreground="{Binding Path=BoxJudgeFont.Color}"></Label>
+                </Border>
+
+                <Border Grid.Column="4" BorderBrush="{Binding Path=BoxJudgeColor}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=BoxJudgeColor}">
+                    <Label Width="{Binding Path=JudgeBoxWidth}" Height="{Binding Path=JudgeBoxHeight}" Content="{Binding Path=Judge3}" FontStyle="{Binding Path=BoxJudgeFont.Italic, Converter={StaticResource ItalicConverter}}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="{Binding Path=BoxJudgeFont.FontName}" 
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="{Binding Path=BoxJudgeFont.FontSize}" FontWeight="{Binding Path=BoxJudgeFont.Bold, Converter={StaticResource BoldConverter}}" 
+                       Foreground="{Binding Path=BoxJudgeFont.Color}"></Label>
+                </Border>
+
+            </Grid>
+
+            <ListView x:Name="TeamList" Margin="10 0 10 0" BorderBrush="Transparent" BorderThickness="0" Foreground="Transparent" DockPanel.Dock="Left" HorizontalContentAlignment="Center" SelectionMode="Single">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListView}">
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                    </Style>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        <Setter Property="Margin" Value="0 0 0 10"></Setter>
+                    </Style>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.Background" Value="Transparent" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style>
+                                <Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Width="{Binding Path=DataContext.ListViewGridSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding Path=DataContext.ScoreBoxPositionWidth, Mode=TwoWay, Converter={StaticResource GridWidthConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></ColumnDefinition>
+                                            <ColumnDefinition Width="10"></ColumnDefinition>
+                                            <ColumnDefinition Width="{Binding Path=DataContext.ScoreBoxTeamNameWidth, Mode=TwoWay, Converter={StaticResource GridWidthConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></ColumnDefinition>
+                                            <ColumnDefinition Width="10"></ColumnDefinition>
+                                            <ColumnDefinition Width="{Binding Path=DataContext.ScoreBoxJudgeWidth, Mode=TwoWay, Converter={StaticResource GridWidthConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></ColumnDefinition>
+                                            <ColumnDefinition Width="10"></ColumnDefinition>
+                                            <ColumnDefinition Width="{Binding Path=DataContext.ScoreBoxJudgeWidth, Mode=TwoWay, Converter={StaticResource GridWidthConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></ColumnDefinition>
+                                            <ColumnDefinition Width="10"></ColumnDefinition>
+                                            <ColumnDefinition Width="{Binding Path=DataContext.ScoreBoxJudgeWidth, Mode=TwoWay, Converter={StaticResource GridWidthConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></ColumnDefinition>
+                                            <ColumnDefinition Width="10"></ColumnDefinition>
+                                            <ColumnDefinition Width="{Binding Path=DataContext.ScoreBoxScoreWidth, Mode=TwoWay, Converter={StaticResource GridWidthConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></ColumnDefinition>                                            
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.Column="0" BorderBrush="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                            <Label Height="{Binding Path=DataContext.ScoreBoxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"  Width="{Binding Path=DataContext.ScoreBoxPositionWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                               Content="{Binding Path=Position}" ContentStringFormat="#{0}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                                                   FontSize="{Binding Path=DataContext.BoxScoreFont.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                                   FontWeight="{Binding Path=DataContext.BoxScoreFont.Bold, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BoldConverter}}" 
+                                                   Foreground="{Binding Path=DataContext.BoxScoreFont.Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontFamily="{Binding Path=DataContext.BoxScoreFont.FontName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontStyle="{Binding Path=DataContext.BoxScoreFont.Italic, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource ItalicConverter}}"></Label>
+                                        </Border>
+
+
+                                        <Border Grid.Column="2" BorderBrush="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                            <Label Height="{Binding Path=DataContext.ScoreBoxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Width="{Binding Path=DataContext.ScoreBoxTeamNameWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Content="{Binding Path=Name}"
+                       Padding="20 0 0 0"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                                FontSize="{Binding Path=DataContext.BoxScoreFont.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                                   FontWeight="{Binding Path=DataContext.BoxScoreFont.Bold, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BoldConverter}}" 
+                                                   Foreground="{Binding Path=DataContext.BoxScoreFont.Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontFamily="{Binding Path=DataContext.BoxScoreFont.FontName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontStyle="{Binding Path=DataContext.BoxScoreFont.Italic, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource ItalicConverter}}"></Label>
+                                        </Border>
+
+                                        <Border Grid.Column="4" BorderBrush="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                            <Label Height="{Binding Path=DataContext.ScoreBoxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Width="{Binding Path=DataContext.ScoreBoxJudgeWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Content="{Binding Path=PointsJudge1}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                                                   FontSize="{Binding Path=DataContext.BoxScoreFont.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                                   FontWeight="{Binding Path=DataContext.BoxScoreFont.Bold, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BoldConverter}}" 
+                                                   Foreground="{Binding Path=DataContext.BoxScoreFont.Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontFamily="{Binding Path=DataContext.BoxScoreFont.FontName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontStyle="{Binding Path=DataContext.BoxScoreFont.Italic, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource ItalicConverter}}"></Label>
+                                        </Border>
+
+                                        <Border Grid.Column="6" BorderBrush="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                            <Label Height="{Binding Path=DataContext.ScoreBoxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Width="{Binding Path=DataContext.ScoreBoxJudgeWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Content="{Binding Path=PointsJudge2}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                                                   FontSize="{Binding Path=DataContext.BoxScoreFont.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                                   FontWeight="{Binding Path=DataContext.BoxScoreFont.Bold, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BoldConverter}}" 
+                                                   Foreground="{Binding Path=DataContext.BoxScoreFont.Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontFamily="{Binding Path=DataContext.BoxScoreFont.FontName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontStyle="{Binding Path=DataContext.BoxScoreFont.Italic, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource ItalicConverter}}"></Label>
+                                        </Border>
+
+                                        <Border Grid.Column="8" BorderBrush="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                            <Label Height="{Binding Path=DataContext.ScoreBoxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Width="{Binding Path=DataContext.ScoreBoxJudgeWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Content="{Binding Path=PointsJudge3}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                                                   FontSize="{Binding Path=DataContext.BoxScoreFont.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                                   FontWeight="{Binding Path=DataContext.BoxScoreFont.Bold, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BoldConverter}}" 
+                                                   Foreground="{Binding Path=DataContext.BoxScoreFont.Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontFamily="{Binding Path=DataContext.BoxScoreFont.FontName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontStyle="{Binding Path=DataContext.BoxScoreFont.Italic, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource ItalicConverter}}"></Label>
+                                        </Border>
+
+                                        <Border Grid.Column="10" BorderBrush="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" Background="{Binding Path=DataContext.BoxScoreColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                            <Label Height="{Binding Path=DataContext.ScoreBoxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Width="{Binding Path=DataContext.ScoreBoxScoreWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Content="{Binding Path=FinalScore}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                                                   FontSize="{Binding Path=DataContext.BoxScoreFont.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                                   FontWeight="{Binding Path=DataContext.BoxScoreFont.Bold, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BoldConverter}}" 
+                                                   Foreground="{Binding Path=DataContext.BoxScoreFont.Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontFamily="{Binding Path=DataContext.BoxScoreFont.FontName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                   FontStyle="{Binding Path=DataContext.BoxScoreFont.Italic, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource ItalicConverter}}"></Label>
+                                        </Border>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </StackPanel>
+    </DockPanel>
+</Window>
